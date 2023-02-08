@@ -1,7 +1,6 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "Hahmlet", serif;
 }
 
 .container {
@@ -61,26 +60,5 @@ input {
 }
 
 .shadow {
-  box-shadow: rgba(0.9, 0.9, 1, 0.45) 0px 5px 5px 0px;
-}
-
-.react-datepicker__day-name {
-  width: 300px;
-}
-.custom-datepicker {
-  border: 1px solid blue;
-}
-.custom-day {
-  width: 28px;
-  height: 28px;
-  line-height: 1.8;
-  text-align: center;
-}
-.gray-day {
-  color: #aba8b9;
-}
-.selected-day {
-  background: #2e1c8b;
-  border-radius: 50%;
-  font-weight: 700;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
