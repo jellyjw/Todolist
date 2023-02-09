@@ -84,3 +84,9 @@ input {
   border-radius: 50%;
   font-weight: 700;
 }
+
+.checked {
+  text-decoration: line-through;
+  text-decoration-color: rgb(255, 47, 0);
+  text-decoration-thickness: 2px;
+}

@@ -28,6 +28,11 @@ const StyledSubmitInput = styled.input`
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
+  :hover {
+    background-color: #9da19e;
+    transition: all 0.3s;
+    color: white;
+  }
 `;
 
 const Form = ({ setValue, value, handleSubmit }) => {

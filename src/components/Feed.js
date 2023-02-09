@@ -1,12 +1,16 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import "../App.css";
 
+const StyledTodoDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const StyledTodoList = styled.li`
   list-style: none;
   margin: 10px 30px 10px 30px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   background-color: white;
   border-radius: 40px;
@@ -18,6 +22,11 @@ const StyledTodoList = styled.li`
   padding: 10px;
   width: 300px;
   border: 3px solid gray;
+  :hover {
+    background-color: #8c8f8d;
+    transition: all 0.3s;
+    color: white;
+  }
 `;
 
 const StyledRemoveButton = styled.button`
@@ -30,6 +39,11 @@ const StyledRemoveButton = styled.button`
   margin-right: 20px;
   border-radius: 10px;
   cursor: pointer;
+  :hover {
+    background-color: #8c8f8d;
+    transition: all 0.3s;
+    color: white;
+  }
 `;
 
 const StyledbuttonDiv = styled.div`
@@ -48,9 +62,10 @@ const StyledTodayDiv = styled.div`
 `;
 
 const StyledDeleteImg = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
+  margin: 10px;
 `;
 
 const StyledSpan = styled.span`
@@ -61,11 +76,18 @@ const StyledSpan = styled.span`
 const StyledListUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  /* overflow: scroll; */
 `;
 
 const StyledFeedDiv = styled.div`
   width: 100%;
   height: 100%;
+`;
+
+const StyledInputCheckBox = styled.input`
+  width: 20px;
+  height: 15px;
+  margin-left: 10px;
 `;
 
 const getToday = (param) => {
@@ -77,9 +99,30 @@ const getToday = (param) => {
   return `${year}년 ${month}월 ${date}일 ${week[day]}요일`;
 };
 
-const Feed = ({ onRemove, todoData, handleAllRemoveClick }) => {
+const Feed = ({ onRemove, todoData, handleAllRemoveClick, setTodoData }) => {
   const [isCompleted, setIsCompleted] = useState(false);
-  // console.log(isCompleted);
+  const [isEdited, setIsEdited] = useState(false);
+  const { id, title, completed } = todoData;
+  const url = "http://localhost:3001/data";
+
+  const handleChange = (e) => {
+    setIsCompleted(!isCompleted);
+    let newTodo = {
+      id,
+      title,
+      completed: e.target.checked ? true : false,
+    };
+    fetch(`${url}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    }).then((res) => {
+      res.json(newTodo);
+      setTodoData({ ...newTodo });
+    });
+  };
 
   return (
     <>
@@ -97,17 +140,27 @@ const Feed = ({ onRemove, todoData, handleAllRemoveClick }) => {
           {todoData.map((list, i) => {
             return (
               <StyledTodoList key={i}>
-                <div>
-                  <input
+                <StyledTodoDiv>
+                  <StyledInputCheckBox
                     type="checkbox"
-                    onClick={() => setIsCompleted(!isCompleted)}
+                    onClick={handleChange}
+                    // onClick={() => setIsCompleted(!isCompleted)}
                   />
-                  <StyledSpan>{list.title}</StyledSpan>
+                  <StyledSpan className={isCompleted ? "checked" : null}>
+                    {list.title}
+                  </StyledSpan>
+                </StyledTodoDiv>
+                <div>
+                  {/* 수정버튼 */}
+                  <StyledDeleteImg
+                    src="/image/pencil.png"
+                    // onClick={handleChange}
+                  />
+                  <StyledDeleteImg
+                    src="/image/close.png"
+                    onClick={() => onRemove(todoData[i].id)}
+                  />
                 </div>
-                <StyledDeleteImg
-                  src="/image/close.png"
-                  onClick={() => onRemove(todoData[i].id)}
-                />
               </StyledTodoList>
             );
           })}

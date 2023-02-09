@@ -14,6 +14,16 @@ export const postData = async (url, data) => {
   });
 };
 
+export const patchData = (url, data) => {
+  fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+};
+
 export const deleteData = (url, id) => {
   fetch(`${url}/${id}`, {
     method: "DELETE",

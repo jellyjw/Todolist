@@ -88,7 +88,11 @@ function App() {
     <>
       <StyledContainerDiv>
         <StyledMainSection>
-          <Modal handleClickOpen={handleClickOpen} isOpen={isOpen} />
+          <Modal
+            handleClickOpen={handleClickOpen}
+            isOpen={isOpen}
+            todoData={todoData}
+          />
           <Nav
             setIsOpen={setIsOpen}
             isOpen={isOpen}
